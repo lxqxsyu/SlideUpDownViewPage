@@ -6,6 +6,8 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 /**
  * 上下滑动的ViewPager实现
@@ -18,6 +20,7 @@ public class MainActivity extends FragmentActivity {
 	
 	private ViewPager mViewPager;
 	private ViewPagerAdapter mViewPagerAdapter;
+	private ViewPagerTab mViewPagerTab;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +28,17 @@ public class MainActivity extends FragmentActivity {
 		setContentView(R.layout.activity_main);
 		
 		setUpViewPage();
+		setUpTab();
+	}
+	
+	private void setUpTab(){
+		mViewPagerTab = (ViewPagerTab) findViewById(R.id.viewpager_tab);
+		mViewPagerTab.setViewPager(mViewPager);
+		ImageView childView = new ImageView(this);
+		LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1);
+		childView.setImageResource(R.drawable.line);
+		childView.setLayoutParams(params);
+		mViewPagerTab.addView(childView);
 	}
 	
 	private void setUpViewPage(){
