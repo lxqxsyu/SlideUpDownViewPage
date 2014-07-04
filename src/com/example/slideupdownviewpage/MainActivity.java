@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+
 /**
  * 上下滑动的ViewPager实现
  * @author 李小强
@@ -14,15 +15,6 @@ import android.support.v4.view.ViewPager;
 public class MainActivity extends FragmentActivity {
 
 	//创建三个Fragment对象
-	private Fragment mFragment1 = new Fragment1();
-	private Fragment mFragment2 = new Fragment2();
-	private Fragment mFragment3 = new Fragment3();
-	
-	private static final int TAB_INDEX_COUNT = 3;
-	
-	private static final int TAB_INDEX_ONE = 0;
-	private static final int TAB_INDEX_TWO = 1;
-	private static final int TAB_INDEX_THREE = 2;
 	
 	private ViewPager mViewPager;
 	private ViewPagerAdapter mViewPagerAdapter;
@@ -47,29 +39,30 @@ public class MainActivity extends FragmentActivity {
 	 *
 	 */
 	class ViewPagerAdapter extends FragmentPagerAdapter{
-
+		
+		private Class[] fragments;
 		public ViewPagerAdapter(FragmentManager fm) {
 			super(fm);
+			fragments = new Class[]{Fragment1.class, Fragment2.class, Fragment3.class};
 		}
 
 		@Override
 		public Fragment getItem(int position) {
-			switch (position) {
-			case TAB_INDEX_ONE:
-				return mFragment1;
-			case TAB_INDEX_TWO:
-				return mFragment2;
-			case TAB_INDEX_THREE:
-				return mFragment3;
+			try {
+				return (Fragment) fragments[position].newInstance();
+			} catch (InstantiationException e) {
+				e.printStackTrace();
+				return null;
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+				return null;
 			}
-			throw new IllegalStateException("No fragment at position " + position);
-		}
+		}	
 
 		@Override
 		public int getCount() {
-			return TAB_INDEX_COUNT;
+			return fragments.length;
 		}
 		
 	}
-
 }
